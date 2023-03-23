@@ -1,29 +1,24 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from 'react'
+import { Mutate } from '../types'
 
-type MsgInputProps = {
-  id?: string;
-  text?: string;
-  onMutate: (text: string, id?: string) => void;
-};
-export default function MsgInput({ id, text, onMutate }: MsgInputProps) {
-  const textRef = useRef(null);
+const MsgInput = ({ mutate, text = '', id = undefined }: { mutate: Mutate; text?: string; id?: string }) => {
+  const textRef = useRef<HTMLTextAreaElement>(null)
 
-  const HandleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const text = textRef.current.value;
-    textRef.current.value = "";
-    id ? onMutate(text, id) : onMutate(text);
-  };
+  const onSubmit = (e: FormEvent) => {
+    if (!textRef.current) return
+    e.preventDefault()
+    e.stopPropagation()
+    const text = textRef.current.value
+    textRef.current.value = ''
+    mutate({ text, id })
+  }
 
   return (
-    <form className="messages__input" onSubmit={HandleSubmit}>
-      <textarea
-        ref={textRef}
-        defaultValue={text}
-        placeholder="내용을 입력하세요."
-      />
+    <form className="messages__input" onSubmit={onSubmit}>
+      <textarea ref={textRef} defaultValue={text} placeholder="내용을 입력하세요." />
       <button type="submit">완료</button>
     </form>
-  );
+  )
 }
+
+export default MsgInput

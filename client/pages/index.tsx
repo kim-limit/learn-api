@@ -1,20 +1,25 @@
 import MsgList from "../components/MsgList";
-import fetcher from "../fetcher";
-import { msgType } from "../type";
+import { fetcher } from "../queryClient";
+import { GET_MESSAGES } from "../graphql/message";
+import { Message, User } from "../types";
+import { GET_USERS } from "../graphql/user";
 
-export default function Home({ serverMsgs }) {
-  return (
-    <>
-      <MsgList serverMsgs={serverMsgs} />
-    </>
-  );
-}
+const Home = ({ smsgs, users }: { smsgs: Message[]; users: User[] }) => (
+  <>
+    <h1>CRUD EXAM</h1>
+    <MsgList smsgs={smsgs} />
+  </>
+);
 
 export const getServerSideProps = async () => {
-  const serverMsgs: msgType[] = await fetcher("get", "/messages");
+  const { messages: smsgs }: { messages: Message[] } = await fetcher(
+    GET_MESSAGES
+  );
+
+  console.log(smsgs);
   return {
-    props: {
-      serverMsgs,
-    },
+    props: { smsgs },
   };
 };
+
+export default Home;

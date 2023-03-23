@@ -12,10 +12,11 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 0;
+  // box-shadow: 1px 1px 3px 1px #dadce0;
   &__input {
     display: flex;
     width: 80%;
-    max-width: 700px;
+    max-width: 530px;
     min-width: 400px;
     margin: 0 auto 10px;
     > * {
@@ -32,7 +33,9 @@ h1 {
   }
   &__item {
     position: relative;
-    margin: 10px 0;
+    width: 500px;
+    height: 80px;
+    margin: 10px auto;
     padding: 15px 15px 5px;
     border-radius: 5px;
     border: solid 1px #aaa;
@@ -60,6 +63,6 @@ h1 {
     position: absolute;
     text-align: right;
     right: 10px;
-    bottom: 10px;
+    top: 10px;
   }
 }

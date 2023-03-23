@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback, RefObject } from "react";
 
-const useInfiniteScroll = (targetElement) => {
-  const observerRef = useRef(null);
+const useInfiniteScroll = (
+  targetEl: RefObject<HTMLElement> // 맨 아래에 div element
+) => {
+  const observerRef = useRef<IntersectionObserver>();
   const [intersecting, setIntersecting] = useState(false);
 
   const getObserver = useCallback(() => {
@@ -14,10 +16,14 @@ const useInfiniteScroll = (targetElement) => {
   }, [observerRef.current]);
 
   useEffect(() => {
-    if (targetElement.current) getObserver().observe(targetElement.current);
+    if (targetEl.current) getObserver().observe(targetEl.current);
 
-    return () => getObserver().disconnect();
-  }, [targetElement.current]);
+    return () => {
+      getObserver().disconnect();
+    };
+  }, [targetEl.current]);
+
   return intersecting;
 };
+
 export default useInfiniteScroll;

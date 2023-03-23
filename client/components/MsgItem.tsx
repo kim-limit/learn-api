@@ -1,34 +1,33 @@
+import { Mutate, User } from "../types";
 import MsgInput from "./MsgInput";
 
-type MsgItemProps = {
-  id: string;
-  userId: string;
-  timeStamp: number;
-  text: string;
-  isEditing: boolean;
-  myId: string;
-  startEdit: () => void;
-  onUpdate: (text: string, id: string) => void;
-  onDelete: () => void;
-};
-
-export default function MsgItem({
+const MsgItem = ({
   id,
-  userId,
-  timeStamp,
+  timestamp,
   text,
-  isEditing,
-  myId,
-  startEdit,
   onUpdate,
   onDelete,
-}: MsgItemProps) {
+  isEditing,
+  startEdit,
+  myId,
+  user,
+}: {
+  id: string;
+  timestamp: number;
+  text: string;
+  myId: string;
+  user: User;
+  isEditing: boolean;
+  onUpdate: Mutate;
+  startEdit: () => void;
+  onDelete: () => void;
+}) => {
   return (
     <li className="messages__item">
       <h3>
-        {userId}{" "}
+        {user.nickname}{" "}
         <sub>
-          {new Date(timeStamp).toLocaleString("ko-KR", {
+          {new Date(timestamp).toLocaleString("ko-KR", {
             year: "numeric",
             month: "numeric",
             day: "numeric",
@@ -38,15 +37,16 @@ export default function MsgItem({
           })}
         </sub>
       </h3>
-      <div>{id}</div>
+
       {isEditing ? (
         <>
-          <MsgInput onMutate={onUpdate} id={id} text={text} />
+          <MsgInput mutate={onUpdate} text={text} id={id} />
         </>
       ) : (
         text
       )}
-      {userId === myId && (
+
+      {myId === user.id && (
         <div className="messages__buttons">
           <button onClick={startEdit}>수정</button>
           <button onClick={onDelete}>삭제</button>
@@ -54,4 +54,6 @@ export default function MsgItem({
       )}
     </li>
   );
-}
+};
+
+export default MsgItem;
