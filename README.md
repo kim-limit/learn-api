@@ -1,2 +1,5 @@
 # learn-api
-learn rest api(axios), graphQL(react query) with nextjs use monoRepo
+
+## MonoRepo with yarn Workspace
+## client : Nextjs, typescript, restApi, graphQL use react-query, sass
+## server : express, typescript, restApi, graphQL, jsonDB
